@@ -1,0 +1,33 @@
+#--- Experiment --------------------------------------------------------------------------
+#240609_control2
+#
+#--- System ------------------------------------------------------------------------------
+#Data from PyroScience Workbench V1.4.7.2305   www.pyroscience.com
+#WARD_FIRESTING2
+#--- Instrument --------------------------------------------------------------------------
+#Device: FireSting-O2 [A] FSO2-C4 SN:2411E508596FD910 Firmware:4.11 Build:001
+#--- Channel -----------------------------------------------------------------------------
+#Channel [A Ch.3] - Oxygen Sensor - XA7-540-211 
+#--- Settings & Calibration --------------------------------------------------------------
+#Settings:	Duration	Intensity	Amp	Frequency (Hz)	Crc Enable	Write Lock	Autom. Flash Duration	Autom. Amp Level	Broadcast Interval (ms)	Broadcast Enabled Sensors	Broadcast Options	Analyte	Fiber Type	Fiber Length (mm)	Radio Temp	Temperature (°C)	Opt. Temp. Chan.	Radio Pressure	Pressure (mbar)	Salinity (g/l)
+#	16 ms	10% (A)	10M (400x)	4000	FALSE	FALSE	TRUE	TRUE	0	47	0	oxygen	1 mm	2000	External Temperature Sensor	20.000000	1	Internal Pressure Sensor	1013.000000	3.250000
+#Calibration:	lastCal1	lastCal2	dphi 100% (°)	dphi 0% (°)	f	m	F(Hz)	tt(%/K)	kt(%/K)	Background Amplitude (mV)	Background dphi (°)	mt(1/K)	Tofs(K)	Ksv (1/mbar)	Method	Air Pressure (mbar)	Temperature (°C)	Humidity (%RH)	Temperature (°C) at 0%	Partial Volume of Oxygen (%O2)
+#	6/9/2024	7/11/2023	21.119867	53.700000	0.804000	0.122000	4000	-0.056000	0.969000	0.900000	0.000000	-0.000303	0.000000	0.000000	fixed f	1004.396973	28.761127	51.248001	20.000000	20.950000
+#--- Temperature Compensation Channel ----------------------------------------------------
+#Compensation Channel [A T1] - PT100 Temperature Sensor - Calibration offset = 0.00°C
+#Settings: n/a
+#Calibration: n/a
+#--- Pressure Compensation Channel -------------------------------------------------------
+#Compensation Channel [A P1] - Internal Pressure Sensor
+#Settings: n/a
+#Calibration: n/a
+#--- Measurement Data --------------------------------------------------------------------
+Date [A Ch.3 Main]	Time [A Ch.3 Main]	 dt (s) [A Ch.3 Main]	Oxygen (%air sat.) [A Ch.3 Main]	dphi (°) [A Ch.3 Main]	Signal Intensity (mV) [A Ch.3 Main]	Ambient Light (mV) [A Ch.3 Main]	Status [A Ch.3 Main]	Date [A Ch.3 CompT]	Time [A Ch.3 CompT]	 dt (s) [A Ch.3 CompT]	Sample Temp. (°C) [A Ch.3 CompT]	Status [A Ch.3 CompT]	Date [A Ch.3 CompP]	Time [A Ch.3 CompP]	 dt (s) [A Ch.3 CompP]	Pressure (mbar) [A Ch.3 CompP]	Status [A Ch.3 CompP]
+09-06-2024	15:39:39.412	236.469	101.708	21.121	506	0	OK	09-06-2024	15:39:39.412	236.469	29.147	OK	09-06-2024	15:39:39.412	236.469	1004	OK
+09-06-2024	15:49:39.413	836.470	102.214	21.102	510	0	OK	09-06-2024	15:49:39.413	836.470	28.661	OK	09-06-2024	15:49:39.413	836.470	1005	OK
+09-06-2024	15:59:39.413	1436.469	102.097	21.195	509	0	OK	09-06-2024	15:59:39.413	1436.469	27.687	OK	09-06-2024	15:59:39.413	1436.469	1004	OK
+09-06-2024	16:09:39.417	2036.473	102.001	21.110	504	0	OK	09-06-2024	16:09:39.417	2036.473	28.920	OK	09-06-2024	16:09:39.417	2036.473	1004	OK
+09-06-2024	16:19:39.411	2636.467	113.774	20.249	393	0	OK	09-06-2024	16:19:39.411	2636.467	24.397	OK	09-06-2024	16:19:39.411	2636.467	1004	OK
+09-06-2024	16:29:39.413	3236.470	76.538	25.356	615	0	OK	09-06-2024	16:29:39.413	3236.470	19.653	OK	09-06-2024	16:29:39.413	3236.470	1004	OK
+09-06-2024	16:39:39.401	3836.458	72.669	25.988	635	0	OK	09-06-2024	16:39:39.401	3836.458	19.631	OK	09-06-2024	16:39:39.401	3836.458	1004	OK
+09-06-2024	16:49:39.405	4436.461	73.884	25.790	634	0	OK	09-06-2024	16:49:39.405	4436.461	19.584	OK	09-06-2024	16:49:39.405	4436.461	1004	OK

@@ -1,0 +1,36 @@
+#--- Experiment --------------------------------------------------------------------------
+#240609_freshwater2
+#
+#--- System ------------------------------------------------------------------------------
+#Data from PyroScience Workbench V1.4.7.2305   www.pyroscience.com
+#WARD_FIRESTING1
+#--- Instrument --------------------------------------------------------------------------
+#Device: FireSting-O2-A [A] FSO2-C4 SN:24EB9B0359671DD3 Firmware:4.11 Build:001
+#--- Channel -----------------------------------------------------------------------------
+#Channel [A Ch.4] - Oxygen Sensor - XA6-539-211 
+#--- Settings & Calibration --------------------------------------------------------------
+#Settings:	Duration	Intensity	Amp	Frequency (Hz)	Crc Enable	Write Lock	Autom. Flash Duration	Autom. Amp Level	Broadcast Interval (ms)	Broadcast Enabled Sensors	Broadcast Options	Analyte	Fiber Type	Fiber Length (mm)	Radio Temp	Temperature (°C)	Opt. Temp. Chan.	Radio Pressure	Pressure (mbar)	Salinity (g/l)
+#	16 ms	10% (A)	5M (200x)	4000	FALSE	FALSE	TRUE	TRUE	0	47	0	oxygen	1 mm	2000	External Temperature Sensor	20.000000	1	Internal Pressure Sensor	1013.000000	0.375000
+#Calibration:	lastCal1	lastCal2	dphi 100% (°)	dphi 0% (°)	f	m	F(Hz)	tt(%/K)	kt(%/K)	Background Amplitude (mV)	Background dphi (°)	mt(1/K)	Tofs(K)	Ksv (1/mbar)	Method	Air Pressure (mbar)	Temperature (°C)	Humidity (%RH)	Temperature (°C) at 0%	Partial Volume of Oxygen (%O2)
+#	6/9/2024	5/13/2024	21.579000	53.929000	0.804000	0.122000	4000	-0.056000	0.969000	0.900000	0.000000	-0.000303	0.000000	0.000000	fixed f	1003.726000	27.798000	53.389000	10.129000	20.950000
+#--- Temperature Compensation Channel ----------------------------------------------------
+#Compensation Channel [A T1] - PT100 Temperature Sensor - Calibration offset = 0.00°C
+#Settings: n/a
+#Calibration: n/a
+#--- Pressure Compensation Channel -------------------------------------------------------
+#Compensation Channel [A P1] - Internal Pressure Sensor
+#Settings: n/a
+#Calibration: n/a
+#--- Measurement Data --------------------------------------------------------------------
+Date [A Ch.4 Main]	Time [A Ch.4 Main]	 dt (s) [A Ch.4 Main]	Oxygen (%air sat.) [A Ch.4 Main]	dphi (°) [A Ch.4 Main]	Signal Intensity (mV) [A Ch.4 Main]	Ambient Light (mV) [A Ch.4 Main]	Status [A Ch.4 Main]	Date [A Ch.4 CompT]	Time [A Ch.4 CompT]	 dt (s) [A Ch.4 CompT]	Sample Temp. (°C) [A Ch.4 CompT]	Status [A Ch.4 CompT]	Date [A Ch.4 CompP]	Time [A Ch.4 CompP]	 dt (s) [A Ch.4 CompP]	Pressure (mbar) [A Ch.4 CompP]	Status [A Ch.4 CompP]
+09-06-2024	14:51:19.482	553.000	56.033	29.509	183	0	OK	09-06-2024	14:51:19.482	553.000	20.134	OK	09-06-2024	14:51:19.482	553.000	1004	OK
+09-06-2024	15:01:19.360	1152.878	37.496	34.354	215	0	OK	09-06-2024	15:01:19.360	1152.878	20.151	OK	09-06-2024	15:01:19.360	1152.878	1004	OK
+09-06-2024	15:11:19.358	1752.876	20.400	40.877	256	0	OK	09-06-2024	15:11:19.358	1752.876	20.171	OK	09-06-2024	15:11:19.358	1752.876	1004	OK
+09-06-2024	15:21:19.356	2352.875	12.256	45.123	280	1	OK	09-06-2024	15:21:19.356	2352.875	20.178	OK	09-06-2024	15:21:19.356	2352.875	1004	OK
+09-06-2024	15:31:19.354	2952.872	6.748	48.610	299	0	OK	09-06-2024	15:31:19.354	2952.872	20.189	OK	09-06-2024	15:31:19.354	2952.872	1004	OK
+09-06-2024	15:41:19.355	3552.873	0.337	53.490	321	1	OK	09-06-2024	15:41:19.355	3552.873	20.197	OK	09-06-2024	15:41:19.355	3552.873	1004	OK
+09-06-2024	15:51:19.354	4152.872	-0.311	54.042	323	0	OK	09-06-2024	15:51:19.354	4152.872	20.206	OK	09-06-2024	15:51:19.354	4152.872	1004	OK
+09-06-2024	16:01:19.351	4752.869	-0.335	54.063	324	0	OK	09-06-2024	16:01:19.351	4752.869	20.213	OK	09-06-2024	16:01:19.351	4752.869	1004	OK
+09-06-2024	16:11:19.352	5352.871	-0.348	54.074	325	0	OK	09-06-2024	16:11:19.352	5352.871	20.215	OK	09-06-2024	16:11:19.352	5352.871	1004	OK
+09-06-2024	16:21:19.352	5952.870	-0.362	54.086	325	1	OK	09-06-2024	16:21:19.352	5952.870	20.219	OK	09-06-2024	16:21:19.352	5952.870	1004	OK
+09-06-2024	16:31:19.354	6552.872	-0.372	54.094	326	1	OK	09-06-2024	16:31:19.354	6552.872	20.224	OK	09-06-2024	16:31:19.354	6552.872	1004	OK
