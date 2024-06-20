@@ -16,6 +16,8 @@ p_load(tidyverse,
        cowplot, 
        janitor, 
        parsedate,
+       plotly,
+       hms,
        googledrive)
 
 ## URLs for data folders. Since things are scattered and there are only 4 instruments
@@ -26,10 +28,13 @@ fw_source_path = "https://drive.google.com/drive/folders/1HO8SWjhAS7PDCe9z57kGnn
 sw_source_path = "https://drive.google.com/drive/folders/1g8Q1rpj2gy-jW3XDY4pQbryPSaMJHyI0"
 
 ## Runoff (Plus) path
-runoff_path = "https://drive.google.com/drive/folders/1gOuGXZYTq7imTMluDjH6RzTxxOohoJZi"
+runoff_path = "https://drive.google.com/drive/folders/19R5QL3M2XSIlghL5ZAF4yrJY5wVfCdUO"
 
 ## set ggplot theme
 theme_set(theme_bw())
+
+## Set a common tz
+common_tz = "Etc/GMT+5"
 
 
 # 2. Download data -------------------------------------------------------------
@@ -58,7 +63,7 @@ drive_download_ <- function(data){
 #   drive_download_(sw_source_files %>% slice(i))
 # }
 # 
-# ## Download runoff
+## Download runoff
 # for(i in 1:nrow(runoff_path)){
 #   drive_download_(runoff_path %>% slice(i))
 # }
@@ -83,36 +88,68 @@ source <- bind_rows(fw_source_files$name %>%
   sw_source_files$name %>% 
     map(read_source) %>% 
     bind_rows() %>% 
-    mutate(plot = "SW"))
+    mutate(plot = "SW")) %>% 
+  mutate(datetime_est = force_tz(datetime_est, tzone = common_tz))
 
 
-## Since we have both datasets in one file, we'll just use that...
-## FW = WARD, SW = SW
-runoff <- read_csv(paste0(download_path, runoff_path$name[[2]])) %>% 
-  clean_names() %>% 
-  mutate(datetime_raw = parsedate::parse_date(timestamp), 
-         plot = case_when(unit_id == "WARD" ~ "FW", 
-                          TRUE ~ unit_id)) %>% 
-  mutate(datetime_est = case_when(plot == "FW" ~ datetime_raw + hours(1), 
-                                  plot == "SW" ~ datetime_raw - hours(1))) %>% 
-  rename("temp_c" = temperature_c, 
-         "spcond_us_cm" = specific_conductance_u_s_cm, 
-         "sal_psu" = salinity_ppt, 
-         "odo_mg_l" = dissolved_oxygen_mg_l) %>% 
-  dplyr::select(datetime_raw, datetime_est, temp_c, spcond_us_cm, sal_psu, odo_mg_l, plot)
+## Set up a function to read in runoff files from Pro Pluses
+read_runoff <- function(file){
+  read_csv(paste0(download_path, file)) %>% 
+    clean_names() %>% 
+    mutate(datetime_raw = parsedate::parse_date(timestamp)) %>% 
+
+    rename("temp_c" = temperature_c, 
+           "spcond_us_cm" = specific_conductance_u_s_cm, 
+           "sal_psu" = salinity_ppt, 
+           "odo_mg_l" = dissolved_oxygen_mg_l) %>% 
+    dplyr::select(datetime_raw, temp_c, spcond_us_cm, sal_psu, odo_mg_l)
+}
+
+## SW Pro Plus was 1 hour ahead of EST per email, FW was two hours behind
+runoff <- bind_rows(read_runoff(runoff_path$name[[1]]) %>% 
+              mutate(datetime_est = datetime_raw - hours(1), 
+                     plot = "SW"), 
+              read_runoff(runoff_path$name[[2]]) %>% 
+              mutate(datetime_est = datetime_raw + hours(1), 
+                     plot = "FW")) %>% 
+  mutate(datetime_est = force_tz(datetime_est, tzone = common_tz)) %>%
+  relocate(datetime_est, .after = datetime_raw) 
 
 
 df <- bind_rows(source %>% mutate(type = "0_source"), 
                 runoff %>% mutate(type = "1_runoff")) %>% 
-  mutate_all(~ifelse(. %in% c(-99999, 88888), NA, .))
-  
+  filter(datetime_est < as.POSIXct("2024-06-14", tz = common_tz)) %>% 
+  mutate_if(is.numeric, ~ifelse(. %in% c(-9999, 88888, 99999), NA, .)) %>% 
+  mutate(flood = case_when(datetime_est < as.POSIXct("2024-06-12", tz = common_tz) ~ "flood1", 
+                           datetime_est > as.POSIXct("2024-06-12", tz = common_tz) & 
+                                                       datetime_est < as.POSIXct("2024-06-13", tz = common_tz) ~ "flood2",
+                           datetime_est > as.POSIXct("2024-06-13", tz = common_tz) & 
+                                                       datetime_est < as.POSIXct("2024-06-14", tz = common_tz) ~ "flood3", 
+                           TRUE ~ NA)) %>% 
+  mutate(tod = as_hms(datetime_est))
 
+## Test plot
+p1 <- ggplot(df, aes(datetime_est, odo_mg_l, color = type)) + 
+  geom_line() + 
+  facet_wrap(~plot, scales = "free", ncol = 1)
+
+## It looks like the runoff (Pluses) didn't start until close to noon on Flood 1?
+ggplotly(p1)
+
+
+ggplot(df, aes(tod, odo_mg_l, color = type)) + 
+  geom_line() + 
+  geom_vline(aes(xintercept = as_hms("06:00:00")), linetype = "dashed") + 
+  facet_wrap(plot~flood, nrow = 2, scales = "free")
+
+##
 make_plot <- function(var, name){
-  ggplot(df, aes(datetime_est, {{var}}, color = type)) + 
+  ggplot(df, aes(tod, {{var}}, color = type)) + 
     geom_line() + 
-    facet_wrap(~plot, ncol = 1, scales = "free_y") + 
+    geom_vline(aes(xintercept = as_hms("06:00:00")), linetype = "dashed") + 
+    facet_wrap(plot~flood, nrow = 2, scales = "free")
     labs(y = name)
-  ggsave(paste0("figures/", name, ".png"), width = 6, height = 5)
+  ggsave(paste0("figures/", name, ".png"), width = 10, height = 5)
 }
 
 make_plot(temp_c, "temp_c")
