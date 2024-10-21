@@ -149,9 +149,17 @@ ggplot(firesting_cleaned,
 
 ## Alternatively, you can use geom_contour_filled to extrapolate across the 
 ## depth profile
-ggplot(firesting, aes(x = datetime, y = depth, z = do_percent_sat)) + 
+firesting %>% 
+  mutate(do_clean = case_when(do_percent_sat < 0.1 ~ 0.1, 
+                              do_percent_sat > 95 ~ 95, 
+                              TRUE ~ do_percent_sat)) %>% 
+  filter(datetime > flood1_start - hours(24)) %>% 
+  ggplot(aes(x = datetime, y = depth, z = do_clean)) + 
   geom_contour_filled() + 
-  facet_wrap(~plot) + 
+  geom_vline(aes(xintercept = flood1_start), linetype = "dashed", color = "white") + 
+  geom_vline(aes(xintercept = flood2_start), linetype = "dashed", color = "white") + 
+  geom_vline(aes(xintercept = flood3_start), linetype = "dashed", color = "white") + 
+  facet_wrap(~plot, ncol = 1) + 
   scale_x_datetime(expand = c(0,0)) + 
   scale_y_reverse(expand = c(0,0)) + 
   scale_fill_viridis_d(direction = -1) + 
@@ -162,6 +170,7 @@ ggplot(firesting, aes(x = datetime, y = depth, z = do_percent_sat)) +
         strip.text = element_text(size = 14)) +  # Remove background from legend
   theme(panel.background = element_blank(), 
         plot.background = element_blank())
+ggsave("figures/firesting_prelim.png", width = 8, height = 9)
 
 write_csv(firesting, "data/240613_firesting_fw.csv")
 
