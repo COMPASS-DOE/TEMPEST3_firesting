@@ -128,13 +128,15 @@ df <- bind_rows(source %>% mutate(type = "0_source"),
                            TRUE ~ NA)) %>% 
   mutate(tod = as_hms(datetime_est))
 
+write_csv(df, "data/241021_ysi_handheld_data.csv")
+
 ## Test plot
 p1 <- ggplot(df, aes(datetime_est, odo_mg_l, color = type)) + 
   geom_line() + 
   facet_wrap(~plot, scales = "free", ncol = 1)
 
 ## It looks like the runoff (Pluses) didn't start until close to noon on Flood 1?
-ggplotly(p1)
+#ggplotly(p1)
 
 
 ggplot(df, aes(tod, odo_mg_l, color = type)) + 
@@ -156,3 +158,7 @@ make_plot(temp_c, "temp_c")
 make_plot(spcond_us_cm, "spcond_us_cm")
 make_plot(sal_psu, "sal_psu")
 make_plot(odo_mg_l, "do_mgl")
+
+
+
+
